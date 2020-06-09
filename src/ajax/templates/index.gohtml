@@ -1,0 +1,35 @@
+<html>
+    <header>
+        <title> Hii there 
+        </title>
+        <style>
+            span{
+                cursor : pointer;
+                text-decoration : underline;
+            }
+        </style>
+    </header>
+
+    <body>
+       <span> <input type="submit"> </input> </span>
+    
+        <script>
+            document.querySelector('input').onclick = makeRequest;
+            function makeRequest(url){
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/foo', true);
+                console.log("before")
+                xhr.onreadystatechange = function() {
+                    console.log("function")
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                        console.log("if")
+                        alert(xhr.responseText);
+                    }
+
+                };
+                console.log("before send")
+                xhr.send()
+            }
+        </script>
+    </body>
+</html>
