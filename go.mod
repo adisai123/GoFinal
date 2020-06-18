@@ -3,7 +3,10 @@ module gofinal/src
 go 1.13
 
 require (
+	github.com/antigloss/go v0.0.0-20200109080012-05d5d0918164
+	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575
 	github.com/go-sql-driver/mysql v1.5.0
+	//github.com/jrick/logrotate v1.0.0 // indirect
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9 // indirect
