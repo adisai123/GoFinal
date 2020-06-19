@@ -1,9 +1,5 @@
-https://golang.org/pkg/net/http/
 
-third party mux:
-https://godoc.org/github.com/julienschmidt/httprouter
-
-
+***Part of Url***
 https://abc.google.com:80/videopath?docid=234234234&hl=en#000hhsds
 
 protocol = https
@@ -16,17 +12,21 @@ docid=23..   = paramenters seperated by & and starts after ?
 000hhsds = fragement
 
 
-cookies: little file , server run on client , saved on clients machine , you can write unique id on to it of each id . if there is any cookies for specific domin , then it will return back to that domain whenever requested , by appended in the url.
+#***cookies***: 
+little file , server run on client , saved on clients machine , you can write unique id on to it of each id . if there is any cookies for specific domin , then it will return back to that domain whenever requested , by appended in the url.
 
-start mysql server : mysql.server start
+#start mysql server : mysql.server start
 
-Context: carries deadlines , cancelation signals , and other request scope values across API boundries and between processes. Incomming request should create context and outgoing calls to servers should accept a context. The chain of function calls between them must propogate the context, optionally replace it with a derived Context created using WithCancel, WithDeadline, WithTimeout, or WithValue. When a context is canceled, all contexts derived from it are also canceled.
+#***Context***: 
+carries deadlines , cancelation signals , and other request scope values across API boundries and between processes. Incomming request should create context and outgoing calls to servers should accept a context. The chain of function calls between them must propogate the context, optionally replace it with a derived Context created using WithCancel, WithDeadline, WithTimeout, or WithValue. When a context is canceled, all contexts derived from it are also canceled.
 
 Context makes it possible to manage a chain of calls within the same call path by signaling context's Done channel.
 context value scope is request scope
 
-Ajax: Asynchronous Javascript and xml. In a nutshell, it is use of the XMLHTTPRequest object to communicate with server-side  scripts. It can send as well as receive information in a variety of formats , including JSON, XML, HTML and even text files. Ajax's most appealing characteristics, however its asynchronous nature, which means it can do all of this without having to refresh the page. This lets you update portions of a page based on user events
+#***Ajax***: 
+Asynchronous Javascript and xml. In a nutshell, it is use of the XMLHTTPRequest object to communicate with server-side  scripts. It can send as well as receive information in a variety of formats , including JSON, XML, HTML and even text files. Ajax's most appealing characteristics, however its asynchronous nature, which means it can do all of this without having to refresh the page. This lets you update portions of a page based on user events
 
+```javascript
 var xhr = new XMLHttpRequest();
 xhr.open('GET','XHTML.html',true);
 xhr.onreadystatechange = function (){
@@ -35,12 +35,14 @@ xhr.onreadystatechange = function (){
     }
 };
 xhr.send();
+```
+
+#***Curl***S:
+
+```curl -X POST -H 'Content-Type: application/json' -d '{"Name":"aditya","Gender":"Male","Age":"29","Id":"123"}' http://localhost:8080/user/```
 
 
-curl -X POST -H 'Content-Type: application/json' -d '{"Name":"aditya","Gender":"Male","Age":"29","Id":"123"}' http://localhost:8080/user/
-
-
-Mongo -----
+#***Mongo*** -----
 
 MongoDB use DATABASE_NAME is used to create database
 To check your currently selected database, use the command db
@@ -149,5 +151,36 @@ Use the IP address of your instance
 
 
 To add user to docker group so that you can execute Docker commands without using sudo
+```bash
+sudo usermod -a -G docker ec2-user
+```
+scopes : function , file , package , Universal scopes..
 
-sudo usermod -a -G docker ec2-user 
+
+mongo
+
+databases -> collection -> documents
+
+***create database*** : ```use <db_name>``` (either way to use it or to create and use it for the first time.)
+
+***see current database*** : ```db```
+
+***see all dbs***:  ```show dbs```
+
+***insert document***:  db.<collection_name>.insert([{}]) // for single row just insert {}
+(If collection does not exist, it is created.)
+
+***View collections*** :   ```show collections ```
+
+
+
+
+
+
+
+
+#***External links***:
+https://golang.org/pkg/net/http/
+
+third party mux:
+https://godoc.org/github.com/julienschmidt/httprouter
