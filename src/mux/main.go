@@ -11,45 +11,44 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func allUsers(w http.ResponseWriter, r *http.Request) {
+func allusers(w http.ResponseWriter, r *http.Request) {
 	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
 	defer db.Close()
 
-	var users []User
+	var users []user
 	db.Find(&users)
 	fmt.Println("{}", users)
 
 	json.NewEncoder(w).Encode(users)
 }
 
-func newUser(w http.ResponseWriter, r *http.Request) {
+func newuser(w http.ResponseWriter, r *http.Request) {
 	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
 	defer db.Close()
-	var users []User
-	r.FormValue()
+	var users []user
 	db.CreateTable(&users)
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Delete User Endpoint Hit")
+func deleteuser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Delete user Endpoint Hit")
 }
 
-func updateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Update User Endpoint Hit")
+func updateuser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Update user Endpoint Hit")
 }
 
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
-	myRouter.HandleFunc("/users", allUsers).Methods("GET")
-	myRouter.HandleFunc("/user/{name}", deleteUser).Methods("DELETE")
-	myRouter.HandleFunc("/user/{name}/{email}", updateUser).Methods("PUT")
-	myRouter.HandleFunc("/user/{name}/{email}", newUser).Methods("POST")
+	myRouter.HandleFunc("/users", allusers).Methods("GET")
+	myRouter.HandleFunc("/user/{name}", deleteuser).Methods("DELETE")
+	myRouter.HandleFunc("/user/{name}/{email}", updateuser).Methods("PUT")
+	myRouter.HandleFunc("/user/{name}/{email}", newuser).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8081", myRouter))
 }
 
@@ -63,10 +62,10 @@ func initialMigration() {
 	defer db.Close()
 
 	// Migrate the schema
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&user{})
 }
 
-type User struct {
+type user struct {
 	firstName string
 	email     string
 }
@@ -76,19 +75,5 @@ func main() {
 
 	// Handle Subsequent requests
 	handleRequests()
-	trashSQL, err := database.Prepare("update task set is_deleted='Y',last_modified_at=datetime() where id=?")
-	if err != nil {
-		fmt.Println(err)
-	}
-	tx, err := database.Begin()
-	if err != nil {
-		fmt.Println(err)
-	}
-	_, err = tx.Stmt(trashSQL).Exec(id)
-	if err != nil {
-		fmt.Println("doing rollback")
-		tx.Rollback()
-	} else {
-		tx.Commit()
-	}
+
 }
