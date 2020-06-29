@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: myfirstgoapp
+ labels:
+  app: myfirstgo
+spec:
+ containers:
+ - name: myfirstgocontiners
+   image: adisai123/myfirstgo:latest
+   ports: 
+   - containerPort: 8080
