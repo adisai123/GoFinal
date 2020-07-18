@@ -7,6 +7,6 @@ metadata:
 spec:
  containers:
  - name: myfirstgocontiners
-   image: adisai123/myfirstgo:latest
+   image: adisai123/myfirstgo:03ced5393f70
    ports: 
    - containerPort: 8080

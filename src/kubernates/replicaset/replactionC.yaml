@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+ name: myfirstgoapp
+spec:
+ replicas: 2
+ selector:
+  app: myfirstgo
+ template:
+  metadata:
+   labels:
+    app: myfirstgo
+  spec:
+   containers:
+   - name: myfirstgocontiners
+     image: adisai123/myfirstgo:latest
+     ports: 
+     - containerPort: 8080

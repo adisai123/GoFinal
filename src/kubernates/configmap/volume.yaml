@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: myfirstgoappconfigmap
+spec:
+ replicas: 1
+ template:
+  metadata:
+   labels:
+    app: myfirstgoappconfigmap
+  spec:
+   containers:
+   - name: myapp
+     image: adisai123/myfirstgo:latest
+     ports:
+     - containerPort: 8080
+     volumeMounts:
+     - name: configmap-volume
+       mountPath: /etc/config
+   volumes:
+   - name: configmap-volume
+     configMap:
+      name: app-config
+   nodeSelector:
+    environment: dev

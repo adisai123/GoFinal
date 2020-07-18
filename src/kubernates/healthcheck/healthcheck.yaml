@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: myfirstgo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: myfirstgo
+    spec:
+      containers:
+      - name: myfirstgo
+        image: adisai123/myfirstgo:2
+        ports:
+        - name: mygoport
+          containerPort:  3000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 15
+          timeoutSeconds: 30
+      nodeSelector:
+        environment: dev
+      
