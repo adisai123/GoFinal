@@ -10,11 +10,12 @@ spec:
     app: myfirstgoapp
   spec:
    containers:
-   - name: myapp
-     image: adisai123/myfirstgo:2
+   - name: myfirstgoapp
+     image: adisai123/daemonset:1
      ports:
      - name: mygoport
        containerPort: 8080
-   nodeSelector:
-    environment: dev
+     resources:
+      requests:
+        cpu: 200m
  

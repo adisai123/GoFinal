@@ -246,3 +246,88 @@ the container stops.
 # stateful Sets:
 	on shutdown it wont shutdown , pod name will be fixed i.e. no random string 
 
+# Daemon sets:
+It ensures that every single node in the cluster runs the same resource
+This is useful when you want to ensure that a certain pod is running on every single kubernates node.
+
+When a node is added to cluster, a new pod will be started automatically.
+
+Same when a node is removed, the pod will be not be rescheduled on another node.
+
+Typically use cases:
+	Logging aggregators , Monitoring, Load Balancers / Reverse Proxies/ API Gateways
+
+// influx db : heapster grafana
+
+//Autoscaling 
+```bash
+[admalpan podautoscle]$k get hpa
+NAME          REFERENCE                 TARGETS        MINPODS   MAXPODS   REPLICAS   AGE
+newautscale   Deployment/myfirstgoapp   <unknown>/2%   1         10        1          17s
+[admalpan podautoscle]$
+```
+
+# Master component:
+	APIs contains : 
+		Scheduling actuator:
+		Rest:
+	Scheduler
+	Controller manager (node controller)
+
+	Every time you send create request to kubectl it using Rest API part  these objects are saved into etcd.
+	Rest interface communicate with etcd.
+	rest communicate with kubelet available in each node (slave node).
+
+# Helm :
+Helm is the package manager in kubernetes
+
+#Resource quota:
+You can manage resource with ResourceQuota and ObjectQuota objects.
+	Each container can specify request capacity and capacity limit.
+	Rquest capacity is an explcit request for resources.
+	Scheduler can use the request capacity to make decision on where to put the pod on.
+
+you can see it as a minimum amount of resources	the pod need.
+
+Resource limit is a limit imposed to the container.
+
+If a capacity quota (eg. mem/cpu) has been specified by the administrator, then each pod needs to specify capacity quota during creation.
+
+The administrator can specify default request values  for pods that dont specify any values for capacity.
+
+same is valid for limit below limits within a namespace:
+
+requests.cpu  	the sum of cpu requests of all pods can not exceed this value.
+requests.mem 	the sum of mem  requests of all pods can not exceed this value.
+requests.storage the sum of storage requests of all Persistent volumn claims cannot exceed  this value.
+limit.cpu
+limit.memory
+
+configmaps total number of configmaps that can exist in a namespace
+persistentvolumnclaims
+pods 		total number of pods that can exist in a namespace
+replicationcontrollers total number of ReplactionController 
+Resourcequotas
+services    
+services.loadbalancer
+service.nodeports
+secrets
+
+
+# Namespaces :
+ allow to create logical clusters within  the same physical cluster
+ Logically seperates your clusters
+ standard namespace is called default namespace where all resources are launched in by default.
+
+ modify default namespace:
+ export CONTEXT=$(k config view | awk '/current-context/ {print $2}')
+ kubectl config set-context $CONTEXT --namespace=aditya
+
+
+ admalpan ResourcelimitObject]$k get resourcequota
+ NAME                 AGE
+ computer-resources   4m
+ object-counts        12s
+ [admalpan ResourcelimitObject]$
+
+ 

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -12,36 +10,20 @@ import (
 )
 
 func main() {
-	dial := func(ctx context.Context, network, addr string) (net.Conn, error) {
-		conn, err := (&net.Dialer{
-			Timeout:   30 * time.Second,
-			KeepAlive: 30 * time.Second,
-		}).DialContext(ctx, network, addr)
-		if err != nil {
-			return nil, err
-		}
-
-		tcpConn, ok := conn.(*net.TCPConn)
-		if !ok {
-			err = errors.New("conn is not tcp")
-			return nil, err
-		}
-
-		f, err := tcpConn.File()
-		if err != nil {
-			return nil, err
-		}
-
-		err = syscall.SetsockoptInt(int(f.Fd()), syscall.IPPROTO_IP, syscall.IP_TOS, int(435))
-		if err != nil {
-			return nil, err
-		}
-
-		return conn, nil
+	dialer := &net.Dialer{
+		Control: func(network, address string, c syscall.RawConn) error {
+			return c.Control(func(fd uintptr) {
+				err := syscall.SetsockoptInt(int(fd), syscall.IPPROTO_IP, syscall.IP_TOS, 128)
+				if err != nil {
+					log.Printf("control: %s", err)
+					return
+				}
+			})
+		},
 	}
 	tr := &http.Transport{
 		Proxy:                 http.ProxyFromEnvironment,
-		DialContext:           dial,
+		DialContext:           dialer.DialContext,
 		MaxIdleConns:          100,
 		IdleConnTimeout:       90 * time.Second,
 		TLSHandshakeTimeout:   10 * time.Second,
@@ -51,7 +33,7 @@ func main() {
 		Transport: tr,
 	}
 	fmt.Println(s)
-	resp, err := s.Get("http://169.254.220.69:8080/")
+	resp, err := s.Get("http://192.168.43.5:8081/users")
 	if err != nil {
 		log.Fatalf("GET error: %v", err)
 	}

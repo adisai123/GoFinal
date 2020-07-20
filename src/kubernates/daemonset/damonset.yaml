@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: monitoring-agent
+  labels:  
+    app: monitoring-agent
+spec:
+  template:
+    metadata:
+      labels:
+        name: monitor-agent
+    spec:
+      containers:
+      - name: dae
+        image: adisai123/daemonset:1
+        ports:
+        - name: myport
+          containerPort: 3000
