@@ -51,6 +51,7 @@ kubectl expose pod <podname> --port=444 --name frontend     = expose port and cr
 kubectl port-forward <pod> 8080 =Port forward the exposed pod port to your local machine.
 kubectl attach <podname> -i  =Attach to the pod
 kubectl exec <pod> --command = Execute a command on the pod
+k run -it --rm --image=adisai123/daemonset:1 sh -- another way to run 
 ```
 
 scaling : ReplactionController
@@ -331,3 +332,204 @@ secrets
  [admalpan ResourcelimitObject]$
 
  
+ # Affinity and anti-affinity:
+
+The affinity and anti-affinity feature allows you to do complex scheduling than the nodeSelector and also works on Pods.
+
+You can create rules that are not hard  requirements, but rather a preferred rule, meaning that the scheduler will still be able to schedule your pod, even if the rules cannot be met.
+
+You can create rules that take other pod labels into account.
+Affinity exist not only for node but pod as well.
+
+Node affinity is similar to the nodeSelector.
+
+Pod affinity/anti-affinity allows you to create rules how pods should be scheduled taking into account other running pods.
+
+Affinity/anti-affinity mechanism is only relevant during scheduling, once a pod is running, it'll need to be  recreated to apply the rules again.
+
+node affility  2 types:
+1. requiredDuringSchedulingIgonredDuingExecution
+2. preferredDuringSchedulingIgnoredDuringExecution
+
+first one sets hard requirement like nodeSelector.
+Secont type will try to enforece rule, but it will not guarentee it
+	Even if the rule is not met, the pod can still be scheduled, its soft reuirement, a preference.
+weighing is specified in preferredDuringSchedlingIgnoredDuringExection 
+The heigher this weighting, the more weight is given to that rule.
+
+If you have different rules with weight 1 and 5  so node will have total 6 
+And if other node has only one weight 
+The node that has the heigher total score, that's where the pod will be scheduled on.
+
+
+
+# Operator:
+An operator is a method of packaging, deploying, and managing a kubernates application.
+
+It provides great way to deploy Stateful services on kubernates.(due to that lot of complexities will be hidden from the end-user)
+
+There are operators for Prometheus, Vault, Rook (storage), Mysql, PostgreSQL, and so on.
+
+If you use postgreSql operator, it'will allow you to also create replicas, initiate a failover, create backups, scale
+
+ex: https://github.com/CrunchyData/postgres-operator
+
+
+
+Toleration and Taints:
+Toleration mean - opposite to affinity (pod can not be run on these nodes)
+
+Taints mark a node, tolerations are applied to pods to influence the scheduling of the pods.
+
+One use case for taints is to make sure that when you create a new pod, they're not scheduled on master.
+	The master has a taint: (node-role.kubernetes.io/master:NoSchedule)
+
+To add a new taint to a node, you can use kubectl taint:
+
+```
+kubectl taint nodes node1 key=value:NoSchedule
+```
+
+This will make sure that no pods will be scheduled on node1, as long as they don't have a matching toleration.
+
+The following toleration would allow a new pod to be scheduled on the tainted node1:
+
+```yaml
+tolerations:
+- key: "key"
+  operator: "Equal"
+  value: "value"
+  effect: "NoSchedule"
+```
+
+Just like affinity, taints can also be a preference (or "soft") rather than a requirement:
+
+1. NoSchedule: a hard requirement that a pod will not be scheduled unless there is a matching tolaration
+
+2. PreferNoSchedule: Kubernates will try and avoid placing a pod that doesn't have a matching tolaration, but it's not a hard requirement.
+
+If the taint is applied while there are already running	pods, these will not be evicted, unless the following taint type is used:
+	NoExecute: evict pods with non matching tolerations
+
+When specify NoExecute, you can specify within your toleration how long the pod can run on a tainted node before being evicted:
+```yaml
+tolerations:
+- key: "key"
+  operator: "Equal"
+  value: "value"
+  effect: "NoExecute"
+  tolerationSeconds: 3600
+```
+
+If you dont specify the tolerationSeconds, the toleration will match and the pod will keep running on the node.
+
+Taint can be applied on below keys:
+```yaml
+tolerations: 
+-	key:	"node.alpha.kubernetes.io/unreachable"
+	operator:	"Exists"
+	effect:	"NoExecute"
+	tolerationSeconds: 3600
+```
+similary:
+node.kubernetes.io/not-ready
+node.kubernetes.io/unreachable
+node.kubernetes.io/out-of-disk
+node.kubernetes.io/memory-pressure
+node.kubernetes.io/disk-pressure
+node.kubernetes.io/network-pressure
+
+
+
+to remove taint use - sign after key:
+
+```
+kubectl taints node mynodename testkey-
+
+```
+
+
+# helm :
+
+helm is the best way to find, share and use software built for kubernetes:
+
+Helm is a packagemanager for kubernetes
+Helm uses packaging format called charts
+
+A charts a collection of files that describe a set of kubernetes resources.
+
+A single chart can deploy an app, a piece of software, or a database
+
+It can have dependencies.
+
+Charts use templates that are typically developed by a package maintainer
+
+They will generate yaml files that kubernetes understands
+
+you can think of templates as dynamic yaml files, which can contain logic and variables
+
+``` 
+helm init ---- Install tiller on the cluster
+helm reset --- Remove tiller from cluster
+helm install --- install chart
+helm search
+helm list
+helm upgrade
+helm rollback
+helm install . --generate-name
+helm list
+helm delete chart-1595698716
+```
+
+
+# kubeless:
+Way to provide serverless in kubernetes 
+Rather than using contaniers to start applications on kubernetes, you can use functions.
+With this you can easily deploy function on kubernetes.
+# Serverless:
+	You dont need to manage distribution (windows/Linux) 
+	You dont need to build container
+	You only will have to pay for the time your function running.
+	Ex: Azure Funtions , AWS Lambda, Google Cloud function.
+With these products, you dont need to manage the underling infrastructure.
+
+alternative to kubeless ; openFaas , Fission, OpenWhisk
+
+Monoliths that dont have anything to do with each other.
+
+
+# isto
+
+# canary deployment ( 10% latest patch %90 old verison with the help of weight	)
+
+# virtulService
+
+# retry feature of isto
+
+# skaffold - for builing cicd , code changes monitoring tool
+
+# raft algo -> to select leader
+	suppose 5 out of 1 need to select
+	all 5 will wait for random time
+	one which finished its time will send msg for to be get elected to be as a leader as it is the first one to finish wait and sending heart bit and in that we it will come to know that leader is still active.
+
+
+	
+
+[admalpan bundles]$time for ((i=0;i<10;i++)); do sleep 1; echo "$i";done
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+real	0m10.059s
+user	0m0.008s
+sys	0m0.019s
+[admalpan bundles]$
+

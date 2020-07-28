@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysffinityfirstgoapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysffinityfirstgoapp
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: env
+                operator: In
+                values:
+                - dev
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: team
+                operator: In
+                values:
+                - myprogect
+      containers:
+      - name: mysffinityfirstgoapp
+        image: adisai123/daemonset:1
+        ports:
+        - name: mygoport
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m

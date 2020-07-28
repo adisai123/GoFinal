@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+//https://stackoverflow.com/questions/40544096/how-to-set-socket-option-ip-tos-for-http-client-in-go-language
 func main() {
 	dialer := &net.Dialer{
 		Control: func(network, address string, c syscall.RawConn) error {

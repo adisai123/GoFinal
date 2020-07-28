@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: myantiaffinityfirstgoapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: myantiaffinityfirstgoapp
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: env
+                  operator: In
+                  values:
+                  - dev
+              topologyKey: "kubernets.io/hostname"
+      containers:
+      - name: myantiaffinityfirstgoapp
+        image: adisai123/daemonset:1
+        ports:
+        - name: mygoport
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
