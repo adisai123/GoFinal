@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -27,8 +26,8 @@ func main() {
 				http.Error(rs, e.Error(), http.StatusInternalServerError)
 			}
 			bytes, _ := ioutil.ReadAll(f)
-			string := string(bytes)
-			fmt.Fprintln(rs, string)
+			//string := string(bytes)
+			//fmt.Fprintln(rs, string)
 			file, _ := os.Create(filepath.Join("./", h.Filename))
 			file.Write(bytes)
 			//fmt.Fprintf(rs, "")
