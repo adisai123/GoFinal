@@ -18,7 +18,7 @@ require (
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/mattn/go-sqlite3 v1.14.0
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
-	github.com/osrg/gobgp v2.0.0+incompatible
+	github.com/osrg/gobgp v2.19.0+incompatible
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/viper v1.7.1 // indirect
@@ -26,6 +26,7 @@ require (
 	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9 // indirect
 	golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd
 	google.golang.org/genproto v0.0.0-20200702021140-07506425bd67 // indirect
+	google.golang.org/grpc v1.27.0
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 	gopkg.in/yaml.v2 v2.3.0

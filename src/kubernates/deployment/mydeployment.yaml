@@ -1,21 +1,30 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
- name: myfirstgoapp
+  name: gobgp
 spec:
- replicas: 1
- template:
-  metadata:
-   labels:
-    app: myfirstgoapp
-  spec:
-   containers:
-   - name: myfirstgoapp
-     image: adisai123/daemonset:1
-     ports:
-     - name: mygoport
-       containerPort: 8080
-     resources:
-      requests:
-        cpu: 200m
- 
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gobgp
+    spec:
+      containers:
+        - name: gobgp
+          image: pierky/gobgp
+          ports:
+            - name: mygoport
+              containerPort: 179
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gobgp
+spec:
+  ports:
+    - port: 179
+      nodePort: 30000
+      protocol: TCP
+  selector:
+    app: mygoport
+  type: NodePort

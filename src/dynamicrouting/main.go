@@ -4,6 +4,9 @@
 // This work is licensed under the terms of the BSD 3-Clause License.
 // For a copy, see the LICENSE file.
 
+//sudo ./dynamicrouting route add 10.225.115.92/32 dev ens160 via 10.225.115.2
+//./dynamicrouting route show
+//./dynamicrouting link show
 package main
 
 import (

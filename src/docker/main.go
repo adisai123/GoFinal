@@ -20,8 +20,8 @@ func main() {
 
 	})
 	http.HandleFunc("/forward", func(rs http.ResponseWriter, r *http.Request) {
-		for i := 0; i < 100000000; i++ {
-			fmt.Fprintln(rs, "😘Nu I love you !!!!!!🥰")
+		for i := 0; i < 100; i++ {
+			fmt.Fprintln(rs, " !!!!!!🥰")
 		}
 	})
 	http.HandleFunc("/red", func(rs http.ResponseWriter, r *http.Request) {
