@@ -9,7 +9,7 @@ func Hi() {
 	os := runtime.GOOS
 	switch os {
 	case "windows":
-		fmt.Println("nupur.mac_Windows")
+		fmt.Println("nupurs.mac_Windows")
 	case "darwin":
 		fmt.Println("nupur.MAC operating system")
 	case "linux":
