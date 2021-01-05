@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/osdiff/osdiff"
 )
 
 func main() {
@@ -9,4 +11,5 @@ func main() {
 	i = 0
 	h := fmt.Sprintf("chanfge %x", int(i)<<2)
 	fmt.Println(h)
+	osdiff.Hi()
 }
